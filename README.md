@@ -1,5 +1,9 @@
 # CCIC 4.0 - Group-AJ
 
+## Team Members 
+- Meet Agrawal ([@meetagrawal09](https://github.com/meetagrawal09)) 
+- Lankesh Purekar ([@ravanlankesh](https://github.com/ravanlankesh))
+
 ## Prerequisites
 Before you can use this project, you will need to have Python and pip installed on your system. If you don't already have them installed, you can download the latest version of Python from the [Python website](https://www.python.org/) and use pip to install it.
 
