@@ -56,35 +56,38 @@ def get_xls(url_name, file_name,file_no):
     xls_file.write(url_content)
     xls_file.close()
 
-# get_csv('https://www1.nseindia.com/archives/equities/corpbond/corpbond', 'corpbond.csv')
-
-# get_xls('https://www1.nseindia.com/content/fo/fii_stats_','fii_stats_1.xls')
-
 def market_to():
         #Stock Futures
-    path = os.getcwd()
-    print(path)
-    get_zip('https://www1.nseindia.com/archives/fo/mkt/fo')
-    date = get_date_csv(1)
-    string = "fo_"+str(date)+".csv"
-    csv_file = glob.glob(os.path.join(path, string))#list of files
-    print(csv_file)
-    data_stkfut = pd.read_csv(csv_file[0])
-    data_arr = data_stkfut.to_numpy()
-    print('Stock Futures in USD Billion - ',float(data_arr[2])/8280)
+        list_market_turnover = []
+        path = os.getcwd()
+        # print(path)
+        csv_file = glob.glob(os.path.join(path, "./data/fo_27122022.csv"))#list of files
+        # print(csv_file)
+        data_stkfut = pd.read_csv(csv_file[0])
+        data_arr = data_stkfut.to_numpy()
+        print('Stock Futures in USD Billion ',float(data_arr[2])/8280)
+        list_market_turnover.append(float(data_arr[2])/8280)
         # print(data)
 
         # Nifty
-    path = os.getcwd()
-    string = "ind_close_all_1.csv"
-    get_csv('https://www1.nseindia.com/content/fo/ind_close_all_',string,1)
-    csv_file = glob.glob(os.path.join(path, "ind_close*.csv"))#list of files
-    data_nifty = pd.read_csv(csv_file[0])
-    data_arr = data_nifty.to_numpy()
-    # print(data_arr[0][9])
-    print('Nifty Truenover in USD Billions ',float(data_arr[0][9])/8280)
-    #Bank Nifty 
-    print('Nifty Truenover in USD Billions ',float(data_arr[10][9])/8280)
+        path = os.getcwd()
+        csv_file = glob.glob(os.path.join(path, "./data/ind_close*.csv"))#list of files
+        data_nifty = pd.read_csv(csv_file[0])
+        data_arr = data_nifty.to_numpy()
+        # print(data_arr[0][9])
+        print('Nifty Truenover in USD Billions ',float(data_arr[0][9])/8280)
+        list_market_turnover.append(float(data_arr[0][9])/8280)
+        #Bank Nifty 
+        print('Nifty Truenover in USD Billions ',float(data_arr[10][9])/8280)
+        list_market_turnover.append(float(data_arr[10][9])/8280)
+
+        date = datetime.datetime.now().strftime("%d")
+        month = datetime.datetime.now().strftime("%B")
+        dat = str(int(date)-1)+'-'+month[:3]
+        print(dat)
+        list_market_turnover.append(dat)
+        
+        return list_market_turnover
 
 def insti_flow():
     list_insti_flow = []#fpi_cash , fpi_index_futures , fpi_stock_futures , dii_sto
