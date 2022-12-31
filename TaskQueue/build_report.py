@@ -147,7 +147,10 @@ def build_reports(report_name):
     pdf = FPDF()
     pdf.add_page()
     data = collect_news_data()
-    data[2] = data[2].replace('’','\'')
+    for i in range(len(data)):
+        data[i] = data[i].replace('’','\'')
+        data[i]= data[i].replace('“','\"')
+        data[i]= data[i].replace('”','\"')
     build_news_section(pdf, [data[0], data[1], data[2]])
     
     pdf.output(report_name)
