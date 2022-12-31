@@ -106,28 +106,28 @@ def insti_flow():
             fpi_cash = fpi_cash + float(data_arr_fii[j][2]) - float(data_arr_fii[j][4])
         if(fpi_cash < 0):
             print('fpi_cash ',str(fpi_cash*10/82.80))
-            list_insti_flow.append(fpi_cash)
+            list_insti_flow.append(fpi_cash*10/82.80)
         else:
             print('fpi_cash ','+'+str(fpi_cash*10/82.80))
-            list_insti_flow.append(fpi_cash)
+            list_insti_flow.append(fpi_cash*10/82.80)
 
         FPI_index_futures = float(data_arr_fii[2][2]) - float(data_arr_fii[2][4])
         if(FPI_index_futures < 0 ):
             print('FPI index futures value : ',str(FPI_index_futures*10/82.80))
-            list_insti_flow.append(FPI_index_futures)
+            list_insti_flow.append(FPI_index_futures*10/82.80)
         else:
             print('FPI index futures value : ','+'+str(FPI_index_futures*10/82.80))
-            list_insti_flow.append(FPI_index_futures)
+            list_insti_flow.append(FPI_index_futures*10/82.80)
         
         # print('FII stats ',data_arr_fii)
 
         FPI_stock_futures = float(data_arr_fii[4][2]) - float(data_arr_fii[4][4])
         if(FPI_stock_futures < 0):
             print('FPI stock futures value : ',str(FPI_stock_futures*10/82.80))
-            list_insti_flow.append(FPI_stock_futures)
+            list_insti_flow.append(FPI_stock_futures*10/82.80)
         else:
             print('FPI stock futures value : ','+'+str(FPI_stock_futures*10/82.80))
-            list_insti_flow.append(FPI_stock_futures)
+            list_insti_flow.append(FPI_stock_futures*10/82.80)
 
         #DII data
         dii_idx_fut_buy_val = float(data_arr_fii[2][2])/ float(data_arr_fii[2][1])
@@ -148,7 +148,7 @@ def insti_flow():
         dii_stk_fut = float(data_arr_dii[2][3])*dii_stk_fut_buy_val - float(data_arr_dii[2][4])*dii_stk_fut_sell_val
         if(dii_stk_fut < 0):
             print('DII Stock Future',dii_stk_fut*10/82.80)
-            list_insti_flow.append('-'+str(dii_stk_fut*10/82.80))
+            list_insti_flow.append(dii_stk_fut*10/82.80)
         else:
             print('DII Stock Future',dii_stk_fut*10/82.80)
             list_insti_flow.append(dii_stk_fut*10/82.80)
@@ -156,15 +156,15 @@ def insti_flow():
         dii_idx_fut = float(data_arr_dii[2][1])*dii_idx_fut_buy_val - float(data_arr_dii[2][2])*dii_idx_fut_sell_val
         if(dii_idx_fut < 0):
             print('DII index Future',dii_idx_fut*10/82.80)
-            list_insti_flow.append('-'+str(dii_idx_fut*10/82.80))
+            list_insti_flow.append(dii_idx_fut*10/82.80)
         else:
             print('DII index Future',dii_idx_fut*10/82.80)
             list_insti_flow.append(dii_idx_fut*10/82.80)
 
 
-        dii_cash = 0
-        for j in range(2,6):
-            dii_cash = dii_cash + float(data_arr_dii[j][2]) - float(data_arr_dii[j][4])
+        # dii_cash = 0
+        # for j in range(2,6):
+        #     dii_cash = dii_cash + float(data_arr_dii[j][2]) - float(data_arr_dii[j][4])
 
         #Cal OI_pCR from fao_participant_oi.csv
         path = os.getcwd()
@@ -184,6 +184,11 @@ def insti_flow():
         print('OI PCR ',put/call)
         list_insti_flow.append(put/call)
         print('#################')
+    for i in range(1,3):
+        date = get_date_xls(i)
+        date = date[:6]
+        # print(date,'   ',len(list_insti_flow))
+        list_insti_flow.append(date)
     return list_insti_flow
 
 def opt_flow():
@@ -224,8 +229,8 @@ def opt_flow():
 
         print('fpi index call option',fpi_ce/8280)
         print('fpi index put option',fpi_pe/8280)
-        list_of_opt_flow.append(fpi_ce)
-        list_of_opt_flow.append(fpi_pe)
+        list_of_opt_flow.append(fpi_ce/8280)
+        list_of_opt_flow.append(fpi_pe/8280)
         
 
         dii_ce,dii_pe = 0,0
@@ -242,9 +247,13 @@ def opt_flow():
         print('dii index call option',dii_ce/8280)
         print('dii index put option',dii_pe/8280)
 
-        list_of_opt_flow.append(dii_ce)
-        list_of_opt_flow.append(dii_pe)
-    
+        list_of_opt_flow.append(dii_ce/8280)
+        list_of_opt_flow.append(dii_pe/8280)
+    for i in range(1,3):
+        date = get_date_xls(i)
+        date = date[:6]
+        # print(date,'   ',len(list_of_opt_flow))
+        list_of_opt_flow.append(date)
     return list_of_opt_flow
         
 # print('market turnover ')
