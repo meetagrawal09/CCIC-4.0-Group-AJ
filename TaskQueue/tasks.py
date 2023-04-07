@@ -16,8 +16,9 @@ def collect_news_data():
 
     summarizer = pipeline('summarization')
     for text in texts:
-        summary = summarizer(text, max_length=50, min_length=10, do_sample=False)[0]['summary_text']
-        print(summary)
+        if len(text) > 500:
+            summary = summarizer(text, max_length=50, min_length=10, do_sample=False)[0]['summary_text']
+            text = text.replace(summary, '')
 
     return texts
 
