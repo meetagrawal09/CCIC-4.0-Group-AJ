@@ -5,6 +5,7 @@ import zipfile
 import pandas as pd
 import os
 import glob
+from transformers import pipeline
 
 def collect_news_data():
     url = 'https://economictimes.indiatimes.com/markets/indexsummary/indexid-13602,exchange-50.cms'
@@ -12,6 +13,12 @@ def collect_news_data():
     soup = BeautifulSoup(response.content, 'html.parser')
     divs = soup.find_all('div', class_='syn')
     texts = [div.text for div in divs]
+
+    summarizer = pipeline('summarization')
+    for text in texts:
+        summary = summarizer(text, max_length=50, min_length=10, do_sample=False)[0]['summary_text']
+        print(summary)
+
     return texts
 
 ############################################################################################################
