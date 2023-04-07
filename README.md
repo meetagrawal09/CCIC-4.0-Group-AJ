@@ -23,7 +23,7 @@ To activate the virtual environment, run the following command:
 
 * For Windows based systems:
 
-      .env/Scripts/activate
+      ./env/Scripts/activate
     
 Your virtual environment is now active, and any packages you install will be isolated to this environment.
 
