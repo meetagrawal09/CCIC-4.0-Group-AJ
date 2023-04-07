@@ -17,8 +17,14 @@ This will create a new virtual environment called  `env`.
 
 To activate the virtual environment, run the following command:
 
-    source env/bin/activate
+* For Linux based systems: 
 
+      source env/bin/activate
+
+* For Windows based systems:
+
+      .env/Scripts/activate
+    
 Your virtual environment is now active, and any packages you install will be isolated to this environment.
 
 ## Installation
