@@ -143,6 +143,25 @@ def build_news_section(pdf, news_data):
         table_line_separators=True,
     )
 
+    pdf.write_html(f"""<table border="1">
+                <tbody>
+                    <tr>
+                        <td>Source</td>
+                        <td>Bloomberg & NSE for all data tables/data, Exchange data, CNBC and other print media channels</td>
+                    </tr>
+                    <tr>
+                        <td>Author(s)</td>
+                        <td>XXX</td>
+                    </tr>
+                    <tr>
+                        <td>Date</td>
+                        <td>XXX</td>
+                    </tr>
+                </tbody>
+            </table>""",
+        table_line_separators=True,
+    )
+
 def build_reports(report_name):
     pdf = FPDF()
     pdf.add_page()
