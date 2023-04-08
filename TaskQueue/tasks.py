@@ -7,6 +7,23 @@ import os
 import glob
 from transformers import pipeline
 
+def commentary_section_data():
+    url = 'https://www.businesstoday.in/markets/market-commentary/'
+    respone = requests.get(url)
+    soup = BeautifulSoup(respone.text, 'html.parser')
+
+    divs = soup.find_all('div', class_='widget-listing-content-section')
+    texts = [div.text for div in divs]
+    data = ' '.join(texts)
+    new_split_data = data.split(' ')
+    new_data = ' '.join(new_split_data[0:600])
+
+    model_name = 'sshleifer/distilbart-cnn-12-6'
+    model_revision = 'a4f8f3e'
+    summarizer = pipeline('summarization', model=model_name, revision=model_revision)
+    summary = summarizer(new_data, max_length=200, min_length=100, do_sample=False)
+    return summary[0]['summary_text']
+
 def collect_news_data():
     url = 'https://economictimes.indiatimes.com/markets/indexsummary/indexid-13602,exchange-50.cms'
     response = requests.get(url)
@@ -14,7 +31,9 @@ def collect_news_data():
     divs = soup.find_all('div', class_='syn')
     texts = [div.text for div in divs]
 
-    summarizer = pipeline('summarization')
+    model_name = 'sshleifer/distilbart-cnn-12-6'
+    model_revision = 'a4f8f3e'
+    summarizer = pipeline('summarization', model=model_name, revision=model_revision)
     for text in texts:
         if len(text) > 500:
             summary = summarizer(text, max_length=50, min_length=10, do_sample=False)[0]['summary_text']
