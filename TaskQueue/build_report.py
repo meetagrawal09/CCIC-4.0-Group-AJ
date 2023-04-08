@@ -1,13 +1,21 @@
 from fpdf import FPDF
-from tasks import collect_news_data, opt_flow, insti_flow, market_to
+from tasks import commentary_section_data, collect_news_data, opt_flow, insti_flow, market_to
 
 def build_news_section(pdf, news_data):
 
     pdf.write_html("""
         <font color="#0000ff"><p>***Market Commentary - Intended for Institutional Clients Only***</p></font>
+    """)
+    
+    commentary = commentary_section_data()
+
+    pdf.set_font('helvetica','',10)
+    pdf.multi_cell(0, 5, commentary)
+
+    pdf.write_html("""
         <h5><b>NEWS</b></h5>
     """)
-    pdf.set_font('helvetica','',10)
+
     for element in news_data:
         pdf.multi_cell(0, 5, element)
         pdf.ln()
@@ -146,16 +154,19 @@ def build_news_section(pdf, news_data):
     pdf.write_html(f"""<table border="1">
                 <tbody>
                     <tr>
-                        <td>Source</td>
-                        <td>Bloomberg & NSE for all data tables/data, Exchange data, CNBC and other print media channels</td>
+                        <th colspan="2">Information</th>
                     </tr>
                     <tr>
-                        <td>Author(s)</td>
-                        <td>XXX</td>
+                        <td width="25%"><font color="#0000FF">Source</font></td>
+                        <td width="75%"><font color="#0000FF">Bloomberg & NSE for all data tables/data, Exchange data, CNBC and <br> other print media channels</font></td>
                     </tr>
                     <tr>
-                        <td>Date</td>
-                        <td>XXX</td>
+                        <td width="25%"><font color="#0000FF">Author(s)</font></td>
+                        <td width="75%"><font color="#0000FF">XXX</font></td>
+                    </tr>
+                    <tr>
+                        <td width="25%"><font color="#0000FF">Date</font></td>
+                        <td width="75%"><font color="#0000FF">XXX</font></td>
                     </tr>
                 </tbody>
             </table>""",
