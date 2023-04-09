@@ -13,7 +13,7 @@ def build_news_section(pdf, news_data):
     pdf.multi_cell(0, 5, commentary)
 
     pdf.write_html("""
-        <h5><b>NEWS</b></h5>
+        <h5><b><font color="#000000">NEWS</font></b></h5>
     """)
 
     for element in news_data:
@@ -21,7 +21,7 @@ def build_news_section(pdf, news_data):
         pdf.ln()
 
     pdf.write_html("""
-        <h5><b>MARKET TURNOVER</b></h5>
+        <h5><b><font color="#000000">MARKET TURNOVER (USD Billion)</font></b></h5>
     """)
 
     market_turnover_data = market_to()
@@ -55,7 +55,7 @@ def build_news_section(pdf, news_data):
 
 
     pdf.write_html("""
-        <h5><b>INSTITUTIONAL FLOW</b></h5>
+        <h5><b><font color="#000000">INSTITUTIONAL FLOW (USD Million)</font></b></h5>
     """)
 
     i_flow_data = insti_flow()
@@ -106,7 +106,7 @@ def build_news_section(pdf, news_data):
     )
 
     pdf.write_html("""
-        <h5><b>OPTION FLOWS</b></h5>
+        <h5><b><font color="#000000">OPTION FLOWS (USD Million)</font></b></h5>
     """)
 
     opt_flow_data = opt_flow()
