@@ -13,10 +13,16 @@ def commentary_section_data():
     soup = BeautifulSoup(respone.text, 'html.parser')
 
     divs = soup.find_all('div', class_='widget-listing-content-section')
-    texts = [div.text for div in divs]
+    texts = []
+    for div in divs:
+        t1 = div.find_all('p')
+        for t in t1:
+            texts.append(t.text)
+
     data = ' '.join(texts)
     new_split_data = data.split(' ')
-    new_data = ' '.join(new_split_data[0:600])
+    data_cleanup = [x for x in new_split_data if x]
+    new_data = ' '.join(data_cleanup[0:650])
 
     model_name = 'sshleifer/distilbart-cnn-12-6'
     model_revision = 'a4f8f3e'
