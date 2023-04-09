@@ -14,10 +14,11 @@ def commentary_section_data():
 
     divs = soup.find_all('div', class_='widget-listing-content-section')
     texts = []
+
     for div in divs:
-        t1 = div.find_all('p')
-        for t in t1:
-            texts.append(t.text)
+        headlines = div.find('a')
+        description = div.find('p')
+        texts.append(headlines.contents[0]+' '+description.text)
 
     data = ' '.join(texts)
     new_split_data = data.split(' ')
