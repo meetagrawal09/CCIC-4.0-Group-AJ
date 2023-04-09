@@ -1,4 +1,5 @@
 from fpdf import FPDF
+import datetime
 from tasks import commentary_section_data, collect_news_data, opt_flow, insti_flow, market_to
 
 def build_news_section(pdf, news_data):
@@ -6,6 +7,8 @@ def build_news_section(pdf, news_data):
     pdf.write_html("""
         <font color="#0000ff"><p>***Market Commentary - Intended for Institutional Clients Only***</p></font>
     """)
+
+    pdf.ln(10)
     
     commentary = commentary_section_data()
 
@@ -17,7 +20,7 @@ def build_news_section(pdf, news_data):
     """)
 
     for element in news_data:
-        pdf.multi_cell(0, 5, element)
+        pdf.multi_cell(0, 5, "* "+element)
         pdf.ln()
 
     pdf.write_html("""
@@ -151,6 +154,8 @@ def build_news_section(pdf, news_data):
         table_line_separators=True,
     )
 
+    date = datetime.datetime.now().strftime("%d %b %Y")
+
     pdf.write_html(f"""<table border="1">
                 <tbody>
                     <tr>
@@ -166,7 +171,7 @@ def build_news_section(pdf, news_data):
                     </tr>
                     <tr>
                         <td width="25%"><font color="#0000FF">Date</font></td>
-                        <td width="75%"><font color="#0000FF">XXX</font></td>
+                        <td width="75%"><font color="#0000FF">{date}</font></td>
                     </tr>
                 </tbody>
             </table>""",
