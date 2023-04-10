@@ -50,6 +50,19 @@ def collect_news_data():
 
 ############################################################################################################
 
+def get_trading_holidays():
+    url = 'https://www.moneycontrol.com/markets/NSEholidays.php'
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    div = soup.find('div', {'class': 'OtherArticals'})
+    table = div.find('table')
+    rows = table.find_all('td', {'class': 'det'})
+
+    trading_holidays = []
+    for i in range(2, len(rows), 4):
+        trading_holidays.append(rows[i].text)
+    
+    return trading_holidays
 
 def get_date_csv(file_no):
     date = datetime.datetime.now().strftime("%d%m%Y")
