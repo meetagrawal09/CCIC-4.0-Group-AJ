@@ -140,56 +140,14 @@ def get_trading_holidays():
         # print(formatted_date)
     
     return lis_trading_holidays
-# start = 4
-# calling_2_prevvalid_date = 0
-def market_to():
-        #Stock Futures
-        # https://archives.nseindia.com/archives/fo/mkt/fo05042023.zip
-        get_zip('https://archives.nseindia.com/archives/fo/mkt/fo',start)
-        list_market_turnover = []
-        path = os.getcwd()
-        # print(path)
-        file_name = 'fo_'+get_date_csv(start)+'.csv'
-        csv_file = glob.glob(os.path.join(path, file_name))#list of files
-        # print(csv_file)
-        data_stkfut = pd.read_csv(csv_file[0])
-        data_arr = data_stkfut.to_numpy()
-        print('Stock Futures in USD Billion ',float(data_arr[2])/8280)
-        list_market_turnover.append(float(data_arr[2])/8280)
-        # print(data)
 
-        # Nifty
-        # https://archives.nseindia.com/content/indices/ind_close_all_05042023.csv
-        name = 'ind_close_all_'+str(1)+'.csv'
-        get_csv('https://archives.nseindia.com/content/indices/ind_close_all_',name,start)
-        path = os.getcwd()
-        csv_file = glob.glob(os.path.join(path, "ind_close*.csv"))#list of files
-        data_nifty = pd.read_csv(csv_file[0])
-        data_arr = data_nifty.to_numpy()
-        # print(data_arr[0][9])
-        print('Nifty Truenover in USD Billions ',float(data_arr[0][9])/8280)
-        list_market_turnover.append(float(data_arr[0][9])/8280)
-        #Bank Nifty 
-        print('Nifty Truenover in USD Billions ',float(data_arr[10][9])/8280)
-        list_market_turnover.append(float(data_arr[10][9])/8280)
-
-        date = datetime.datetime.now().strftime("%d")
-        month = datetime.datetime.now().strftime("%B")
-        dat = str(int(date)-1)+'-'+month[:3]
-        # print(dat)
-        list_market_turnover.append(dat)
-        
-        return list_market_turnover
-
-def insti_flow():
-    list_insti_flow = []#fpi_cash , fpi_index_futures , fpi_stock_futures , dii_sto
-    path = os.getcwd()
-    # for i in range(start,start+2):
+def holidays():
     i = 1
     cur_day = datetime.date.today()
     calling_2_prevvalid_date = 0
     lis_holidays = get_trading_holidays()
-    while(calling_2_prevvalid_date < 3):
+    lis = []
+    while(calling_2_prevvalid_date < 2):
         # print('------------------------------------')
         # print('i is : ', i,'calling time : ',calling_2_prevvalid_date)
         check_date = cur_day - timedelta(days=i)
@@ -205,6 +163,58 @@ def insti_flow():
             print('date excluded is :',check_date)
             continue
         print('date under consideration is : ',check_date)
+        lis.append(i)
+        i = i+1
+        calling_2_prevvalid_date = calling_2_prevvalid_date+1
+    return lis
+# start = 4
+# calling_2_prevvalid_date = 0
+def market_to():
+        #Stock Futures
+        lis = holidays()
+        # https://archives.nseindia.com/archives/fo/mkt/fo05042023.zip
+        get_zip('https://archives.nseindia.com/archives/fo/mkt/fo',lis[0])
+        list_market_turnover = []
+        path = os.getcwd()
+        # print(path)
+        file_name = 'fo_'+get_date_csv(lis[0])+'.csv'
+        csv_file = glob.glob(os.path.join(path, file_name))#list of files
+        # print(csv_file)
+        data_stkfut = pd.read_csv(csv_file[0])
+        data_arr = data_stkfut.to_numpy()
+        print('Stock Futures in USD Billion ',float(data_arr[2])/8280)
+        list_market_turnover.append(float(data_arr[2])/8280)
+        # print(data)
+
+        # Nifty
+        # https://archives.nseindia.com/content/indices/ind_close_all_05042023.csv
+        name = 'ind_close_all_'+str(1)+'.csv'
+        get_csv('https://archives.nseindia.com/content/indices/ind_close_all_',name,lis[0])
+        path = os.getcwd()
+        csv_file = glob.glob(os.path.join(path, "ind_close*.csv"))#list of files
+        data_nifty = pd.read_csv(csv_file[0])
+        data_arr = data_nifty.to_numpy()
+        # print(data_arr[0][9])
+        print('Nifty Truenover in USD Billions ',float(data_arr[0][9])/8280)
+        list_market_turnover.append(float(data_arr[0][9])/8280)
+        #Bank Nifty 
+        print('Nifty Truenover in USD Billions ',float(data_arr[10][9])/8280)
+        list_market_turnover.append(float(data_arr[10][9])/8280)
+
+        # date = datetime.datetime.now().strftime("%d")
+        # month = datetime.datetime.now().strftime("%B")
+        # dat = str(int(date)-1)+'-'+month[:3]
+        # print(dat)
+        list_market_turnover.append(get_date_xls(lis[0]))
+        
+        return list_market_turnover
+
+def insti_flow():
+    list_insti_flow = []#fpi_cash , fpi_index_futures , fpi_stock_futures , dii_sto
+    path = os.getcwd()
+    # for i in range(start,start+2):
+    lis = holidays()
+    for i in lis:
         name = 'fii_stats_'+str(i)+'.xls'
         # print('before call',name)
         # https://archives.nseindia.com/content/fo/fii_stats_05-Apr-2023.xls
@@ -308,21 +318,24 @@ def insti_flow():
         print('OI PCR ',put/call)
         list_insti_flow.append(put/call)
         # print('#################')
-        i = i+1
-        calling_2_prevvalid_date = calling_2_prevvalid_date + 1
+    
+    for i in lis:
+        list_insti_flow.append(get_date_xls(i))
 
-    for i in range(1,3):
-        date = get_date_xls(i)
-        date = date[:6]
-        # print(date,'   ',len(list_insti_flow))
-        list_insti_flow.append(date)
+    # for i in range(1,3):
+    #     date = get_date_xls(i)
+    #     date = date[:6]
+    #     # print(date,'   ',len(list_insti_flow))
+    #     list_insti_flow.append(date)
     return list_insti_flow
 
 def opt_flow():
         # refer to the fao_participant_vol.csv file
     path = os.getcwd()
     list_of_opt_flow = []
-    for i in range(start,start+2):
+    # for i in range(start,start+2):
+    lis = holidays()
+    for i in lis:
         string = "fii*"+str(i)+".xls"
         csv_file = glob.glob(os.path.join(path, string ))#list of files
         data_fii = pd.read_excel(csv_file[0])
@@ -376,9 +389,12 @@ def opt_flow():
 
         list_of_opt_flow.append(dii_ce/8280)
         list_of_opt_flow.append(dii_pe/8280)
-    for i in range(1,3):
-        date = get_date_xls(i)
-        date = date[:6]
-        # print(date,'   ',len(list_of_opt_flow))
-        list_of_opt_flow.append(date)
+
+    for i in lis:
+        list_of_opt_flow.append(get_date_xls(i))
+    # for i in range(1,3):
+    #     date = get_date_xls(i)
+    #     date = date[:6]
+    #     # print(date,'   ',len(list_of_opt_flow))
+    #     list_of_opt_flow.append(date)
     return list_of_opt_flow
