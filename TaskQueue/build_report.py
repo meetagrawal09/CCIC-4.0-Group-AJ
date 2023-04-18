@@ -52,7 +52,7 @@ def build_news_section(pdf, news_data):
                     </tr>
                 </tbody>
             </table>""",
-        table_line_separators=True,
+        table_line_separators=True
     )
 
 
