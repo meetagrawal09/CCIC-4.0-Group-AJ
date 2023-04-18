@@ -11,6 +11,9 @@ def build_news_section(pdf, news_data):
     pdf.ln(10)
     
     commentary = commentary_section_data()
+    commentary = commentary.replace('’','\'')
+    commentary = commentary.replace('“','\"')
+    commentary = commentary.replace('”','\"')
 
     pdf.set_font('helvetica','',10)
     pdf.multi_cell(0, 5, commentary)

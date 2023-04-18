@@ -24,7 +24,7 @@ def commentary_section_data():
     data = ' '.join(texts)
     new_split_data = data.split(' ')
     data_cleanup = [x for x in new_split_data if x]
-    new_data = ' '.join(data_cleanup[0:650])
+    new_data = ' '.join(data_cleanup[0:600])
 
     model_name = 'sshleifer/distilbart-cnn-12-6'
     model_revision = 'a4f8f3e'
